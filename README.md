@@ -16,4 +16,4 @@ IoT wireless charging system with automatic power control using current sensing.
   - 5v 5A Power Supply
  
   ## Future Plans
-  Scalinguo for wireless charging for robots, drones, vehicles, office desk, homes.
+  Scaling up wireless charging for robots, drones, vehicles, office desk, homes.
