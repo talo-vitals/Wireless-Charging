@@ -1,0 +1,10 @@
+#Platform Bild Files
+.pio
+.vscode
+
+#macOS system files
+.DS_store
+
+#Compiled files
+build/
+dist/
