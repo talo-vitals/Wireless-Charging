@@ -1,22 +1,40 @@
-# Pseudocode - Smart Wireless Charger
+# Pseudocode: Smart Wireless Charger
 
-## System Overview
-The system automatically detects when a device is placed on the charging pad and controls power to the wireless transmitter using current sensing.
+// Wireless Charger with Current Sensing and Automatic Control
 
-## Main Logic
+DEFINE CURRENT_SENSOR_PIN as 34
+DEFINE RELAY_PIN as 26
+DEFINE CHARGING_THRESHOLD as 0.4
+DEFINE STANDBY_THRESHOLD as 0.2
 
-| Step | Action                                      | Condition                          |
-|------|---------------------------------------------|------------------------------------|
-| 1    | Connect to WiFi and initialise display      | On startup                         |
-| 2    | Read current from ACS712 sensor             | Every 500ms                        |
-| 3    | Apply moving average filter                 | Last 5 readings                    |
-| 4    | Turn relay ON                               | Current > 0.4A                     |
-| 5    | Display "CHARGING" + current value          | When charging                      |
-| 6    | Turn relay OFF                              | Current < 0.2A for 3 readings      |
-| 7    | Display "STANDBY"                           | When not charging                  |
-| 8    | Update web interface                        | Real-time status                   |
+DEFINE currentReading as 0
+DEFINE movingAverage as 0
+DEFINE isCharging as FALSE
 
-## Future Improvements
-- Add timeout after 30 minutes of inactivity
-- Add temperature monitoring of the coil
-- Data logging to SD card
+FUNCTION setup
+    INITIALISE WiFi connection
+    INITIALISE TFT display
+    INITIALISE web server
+    SET RELAY_PIN as OUTPUT
+    SET RELAY_PIN to LOW
+    PRINT "Wireless Charger Ready"
+END FUNCTION
+
+FUNCTION loop
+    READ current from CURRENT_SENSOR_PIN
+    CALCULATE movingAverage of last 5 readings
+    
+    IF movingAverage > CHARGING_THRESHOLD THEN
+        SET RELAY_PIN to HIGH
+        SET isCharging to TRUE
+        UPDATE display with "CHARGING" and current value
+    ELSE IF movingAverage < STANDBY_THRESHOLD FOR 3 readings THEN
+        SET RELAY_PIN to LOW
+        SET isCharging to FALSE
+        UPDATE display with "STANDBY"
+    END IF
+    
+    UPDATE web interface with live data
+    WAIT 500 milliseconds
+END FUNCTION
+  
