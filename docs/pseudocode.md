@@ -1,14 +1,22 @@
-#Pseudocode - Wireless Charger
+# Pseudocode - Smart Wireless Charger
 
 ## System Overview
-The system detects when a device is placedon a charging pad using cureent sensing and automatically power to the transmitter coil.
+The system automatically detects when a device is placed on the charging pad and controls power to the wireless transmitter using current sensing.
 
-## main Logic
+## Main Logic
 
-Connect to WIFI and initialise display + web server
-Continuosly read current from AC712 sensor
-Apply moving average filter to reduce noise 
-If current > 0.4A -> Turn relay ON, show "Charging Active" on screen 
-If current < 0.2A for 3 consecutive readings -> Turn relay OFF, show "STANDBY"
-Update web interface whit live current and status 
-Auto power-off after 30 minutes of inactivity 
+| Step | Action                                      | Condition                          |
+|------|---------------------------------------------|------------------------------------|
+| 1    | Connect to WiFi and initialise display      | On startup                         |
+| 2    | Read current from ACS712 sensor             | Every 500ms                        |
+| 3    | Apply moving average filter                 | Last 5 readings                    |
+| 4    | Turn relay ON                               | Current > 0.4A                     |
+| 5    | Display "CHARGING" + current value          | When charging                      |
+| 6    | Turn relay OFF                              | Current < 0.2A for 3 readings      |
+| 7    | Display "STANDBY"                           | When not charging                  |
+| 8    | Update web interface                        | Real-time status                   |
+
+## Future Improvements
+- Add timeout after 30 minutes of inactivity
+- Add temperature monitoring of the coil
+- Data logging to SD card
