@@ -1,10 +1,29 @@
-#Platform Bild Files
+# PlatformIO Build Files
 .pio
 .vscode
-
-#macOS system files
-.DS_store
-
-#Compiled files
 build/
 dist/
+
+# macOS system files
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# VS Code specific
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+
+# Temporary files
+*.tmp
+*.bak
+*.swp
+
+# Logs
+*.log
+
+# Compiled files
+*.elf
+*.bin
+*.hex
