@@ -1,1 +1,12 @@
+{
+  "platformio-ide.autoReload": true;
+  "files.associations": {
+    "*.ino": "cpp"
+  },
+  "terminal.integrated.env.osx": {
+    "PATH": "${env:PATH}"
+  }
+}
+
+
 
