@@ -1,7 +1,9 @@
 #include <Arduino.h>
 include <Wire.h>           // I2C communication
 #include <WiFi.h>           // WiFi support (for future web interface)
-#include <time.h>           // Time functions// ================== CONFIGURATION ==================
+#include <time.h>           // Time functions
+
+// ================== CONFIGURATION ==================
 
 const int CURRENT_SENSOR_PIN = 34;   
 const int RELAY_PIN          = 26;   
