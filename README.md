@@ -43,72 +43,32 @@ Relay module:
 | Touch YP | YP | ESP32 GPIO 25 |
 | Touch YM | YM | ESP32 GPIO 27 |
 
-## Transmitter wiring details
+# Smart Wireless Charger
 
-- The wireless charger transmitter has two wires: positive (+) and negative (-).
-- Connect the **positive (+) wire** from the transmitter to the **ACS712 `-` terminal**.
-- Connect the **negative (-) wire** from the transmitter to **common ground**.
+IoT wireless charging system with automatic power control using current sensing and ESP32.
 
-> This setup allows the ACS712 to measure the current flowing to the transmitter. Do not connect the transmitter directly to 5V and ground; the positive wire must pass through the ACS712.
-// ================== CONFIGURATION ==================
+## Overview
+This project demonstrates wireless power transfer with intelligent power management. The system detects when a device is placed on the charging pad using a current sensor and automatically activates the wireless transmitter only when needed, improving efficiency and safety.
 
-const int CURRENT_SENSOR_PIN = 34;   // ACS712 OUT
-const int RELAY_PIN          = 26;   // Relay control pin
+## Components Used
 
-bool charging = false;
+| Category       | Component                          | Description                                      |
+|----------------|------------------------------------|--------------------------------------------------|
+| Microcontroller| ESP32 Dev Board with Touch Screen  | Main controller, WiFi, and user interface        |
+| Sensor         | ACS712 5A Current Sensor           | Detects presence of device being charged         |
+| Power Control  | 5V Relay Module                    | Switches power to the wireless transmitter       |
+| Wireless Power | Qi-compatible 5V 2A Modules        | Wireless power transmitter and receiver          |
+| Power Supply   | 5V 5A Switching Power Supply       | Main power source for the system                 |
 
-void setup() {
-  Serial.begin(115200);
-  pinMode(RELAY_PIN, OUTPUT);
-  digitalWrite(RELAY_PIN, HIGH);     //  Start with relay ON
-  
-  Serial.println("\n=== Wireless Charger Starting ===");
-  Serial.println("Waiting for phone... \n");
-}
+## Features
+- Automatic device detection
+- Power saving relay control
+- Live current monitoring on TFT screen
+- Web interface for remote monitoring
+- Real-time charging status display
 
-void loop() {
-  // Read current with averaging
-  float raw = 0;
-  for (int i = 0; i < 80; i++) {
-    raw += analogRead(CURRENT_PIN);
-    delay(2);
-  }
-
-  raw = raw / 80.0;  // Average of 80 samples
-
-  float volatage = raw * (5000.0 / 4095.0); // Convert ADC value to voltage
-  float current_mA = (voltage - 2500.0) / 0.185;
-
-
-
-
-  // Automatic relay control
-  if (current_mA > 3800) {
-      digitalWrite(RELAY_PIN, HIGH);
-      if (!charging) {}
-      Serial.println(">>> POWER DETECTED -  CHARGING STARTED");
-      charging = true;
-
-
-    }
-  }  else {
-    digitalWrite(RELAY_PIN, LOW);
-    if (charging) {
-      Serial.println(">>> POWER REMOVED- CHARGING STOPPED");
-      charging = false;
-    }
-  }
-  
-  // Print status
-  static unsigned long lastPrint = 0;
-  if (millis() - lastPrint > 800) {
-    Serial.printf("Current: %.0f mA | Relay: %s\n", current_mA, charging ? "ON" : "OFF");
-    lastPrint = millis();
-  }
-
-  delay(100);
-}
-
+## Build Notes
+The project is built using PlatformIO in VS Code. The ESP32 uses the TFT_eSPI library to drive the touch screen and a simple web server to provide remote status monitoring.
 
 
 ## Notes
