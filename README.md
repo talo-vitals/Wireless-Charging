@@ -1,6 +1,6 @@
- # Wireless Charger Project
+~ # Wireless Charger Project
 
-ESP32 project for a wireless charging demo with a 1.8" touchscreen, a 5V relay module, and an ACS712 current sensor.
+ESP32 project for a wireless charging (FUTURE demo with a 1.8" touchscreen), a 5V relay module, and an ACS712 current sensor.
 
 ## Hardware connections
 
